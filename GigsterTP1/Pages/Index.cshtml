@@ -1,10 +1,11 @@
 ﻿@page
+@using GigsterTP1.Pages
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Accueil";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="mt-5">Bienvenue chez Gigster</h1>
+    <h2 class ="mt-3">@Model.Message</h2>
 </div>

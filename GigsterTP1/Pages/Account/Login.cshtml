@@ -1,0 +1,40 @@
+﻿@page
+@model GigsterTP1.Pages.Account.LoginModel
+@{
+}
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+
+<h2 class="m-auto text-center">Connexion</h2>
+
+
+
+<form method="post" class="col-6 m-auto">
+    <div asp-validation-summary=ModelOnly class="alert alert-danger"></div>
+    <div class="form-group">
+        <label asp-for="Input.UserName"></label>
+        <input asp-for="Input.UserName" class="form-control" />
+        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Password"></label>
+        <input asp-for="Input.Password" type="password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-check">
+        <input asp-for="Input.RememberMe" class="form-check-input" />
+        <label asp-for="Input.RememberMe" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Se connecter</button>
+
+    <div>
+        <a asp-page="/Account/Register">Créer un compte</a>
+    </div>
+    
+</form>
+
