@@ -1,13 +1,13 @@
-﻿using GigsterTP1.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using GigsterTP1.Modeles;
 
 namespace GigsterTP1.Data
 {
-    public class ApplicationDBContext : IdentityDbContext<Utilisateur>
+    public class ApplicationDbContext : IdentityDbContext<Utilisateur>
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             
         }

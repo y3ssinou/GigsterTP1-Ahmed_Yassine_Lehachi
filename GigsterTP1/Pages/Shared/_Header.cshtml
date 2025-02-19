@@ -1,6 +1,6 @@
 ﻿
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
         <div class="container">
             <a class="navbar-brand" asp-area="" asp-page="/Index">Gigster</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -12,7 +12,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Accueil</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">Catégories</a>
+                    </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
@@ -27,7 +29,7 @@
                             <span class="nav-link">Bienvenue, @User.Identity.Name</span>
                         </li>
                         <li class="nav-item">
-                            <form method="post" asp-page="/Account/Logout">
+                            <form method="post" asp-areas="Identity" asp-page="/Account/Logout">
                                 <button type="submit" class="btn btn-link nav-link">Déconnexion</button>
                             </form>
                         </li>
@@ -35,10 +37,10 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-page="/Account/Login">Connexion</a>
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Connexion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-page="/Account/Register">Inscription</a>
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Inscription</a>
                         </li>
                     }
                 </ul>
