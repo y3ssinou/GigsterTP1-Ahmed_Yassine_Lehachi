@@ -1,175 +1,151 @@
-ï»¿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using GigsterTP1.Modeles;
+using Humanizer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
-namespace GigsterTP1.Areas.Identity.Pages.Account
+namespace GigsterTP1.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Utilisateur> _signInManager;
-        private readonly UserManager<Utilisateur> _userManager;
-        private readonly IUserStore<Utilisateur> _userStore;
-        private readonly IUserEmailStore<Utilisateur> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
 
-        public RegisterModel(
-            UserManager<Utilisateur> userManager,
-            IUserStore<Utilisateur> userStore,
-            SignInManager<Utilisateur> signInManager,
-            ILogger<RegisterModel> logger)
+        private readonly UserManager<Utilisateur> _userManager;
+        private readonly SignInManager<Utilisateur> _signInManager;
+
+        public RegisterModel(UserManager<Utilisateur> userManager, SignInManager<Utilisateur> signInManager)
         {
             _userManager = userManager;
-            _userStore = userStore;
-            _emailStore = GetEmailStore();
             _signInManager = signInManager;
-            _logger = logger;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string ReturnUrl { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            [Required(ErrorMessage = "Le nom d'utilisateur est obligatoire.")]
+            [StringLength(50, ErrorMessage = "Le nom d'utilisateur ne peut pas dépasser 50 caractères.")]
+            [Display(Name = "Nom d'utilisateur")]
+            public string UserName { get; set; }
+
+            [Required(ErrorMessage = "Le prénom est obligatoire.")]
+            public string Prenom { get; set; }
+
+            [Required(ErrorMessage = "Le nom est obligatoire.")]
+            public string Nom { get; set; }
+
+            [Required(ErrorMessage = "Le courriel est obligatoire.")]
+            [EmailAddress(ErrorMessage = "Veuillez saisir un courriel valide")]
+            [Display(Name = "Courriel")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Le mot de passe est obligatoire.")]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [StringLength(100, MinimumLength = 6, ErrorMessage = "Le mot de passe doit contenir au moins 6 caractères.")]
+            [Display(Name = "Mot de passe")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+            [Required(ErrorMessage = "Veuillez confirmer votre mot de passe.")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Les mots de passe ne correspondent pas.")]
+            [Display(Name = "Confirmer le mot de passe")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "L'adresse est obligatoire.")]
+            [Display(Name = "Adresse")]
+            public string Adresse { get; set; }
+
+            [Required(ErrorMessage = "Le code postal est obligatoire.")]
+            [Display(Name = "Code postal")]
+            public string CodePostal { get; set; }
+
+            [Required(ErrorMessage = "Une description est obligatoire.")]
+            [Display(Name = "Description")]
+            public string Description { get; set; }
+
+            [Required(ErrorMessage = "L'avatar est obligatoire.")]
+            [Display(Name = "Avatar")]
+            public IFormFile Avatar { get; set; }
+            [Required(ErrorMessage = "Faite un choix pour les services offert ou non !")]
+            [Display(Name = "Offrir des services ?")]
+            public bool OffreService { get; set; }
         }
 
-
-        public async Task OnGetAsync(string returnUrl = null)
+        public void OnGet() 
         {
-            ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync()
         {
-            returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
+
+            string avatarPath = null;
+
+            if (!ModelState.IsValid)
             {
-                var user = CreateUser();
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
-
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                return Page();
             }
 
-            // If we got this far, something failed, redisplay form
+            if (Input.Avatar != null)
+            {
+                // Chemin de base pour les uploads
+                // Équivalent au _configuration["Images:UploadPath"]; 
+                var cheminUpload = Path.Combine("wwwroot", "uploads", "avatars");
+
+                // Créer le dossier s'il n'existe pas
+                if (!Directory.Exists(cheminUpload))
+                {
+                    Directory.CreateDirectory(cheminUpload);
+                }
+
+                // Générer un nom de fichier unique
+                // Enregistrer le fichier sur le disque
+
+                var nomImageUnique = Guid.NewGuid().ToString() + "_" + Input.Avatar.FileName;
+                var chemin = Path.Combine(cheminUpload, nomImageUnique);
+
+                using (var fileStream = new FileStream(chemin, FileMode.Create))
+                {
+                    await Input.Avatar.CopyToAsync(fileStream);
+                }
+
+                // Enregistrer le chemin relatif dans la base de données
+                avatarPath = Path.Combine("uploads", "avatars", nomImageUnique);
+            }
+
+            // Créer l'utilisateur
+            var user = new Utilisateur
+            {
+                UserName = Input.UserName,
+                Email = Input.Email,
+                Nom = Input.Nom,
+                Prenom = Input.Prenom,
+                Adresse = Input.Adresse,
+                CodePostal = Input.CodePostal,
+                Description = Input.Description,
+                Avatar = avatarPath,
+                OffreService = Input.OffreService
+            };
+
+            // Création de l'utilisateur avec Identity
+            var result = await _userManager.CreateAsync(user, Input.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Utilisateur");
+                // Connexion automatique après l'inscription
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToPage("/Index");
+            }
+
+            // Ajout des erreurs d'inscription à ModelState
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
             return Page();
-        }
-
-        private Utilisateur CreateUser()
-        {
-            try
-            {
-                return Activator.CreateInstance<Utilisateur>();
-            }
-            catch
-            {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(Utilisateur)}'. " +
-                    $"Ensure that '{nameof(Utilisateur)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
-            }
-        }
-
-        private IUserEmailStore<Utilisateur> GetEmailStore()
-        {
-            if (!_userManager.SupportsUserEmail)
-            {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
-            }
-            return (IUserEmailStore<Utilisateur>)_userStore;
         }
     }
 }

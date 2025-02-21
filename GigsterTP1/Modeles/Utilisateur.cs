@@ -5,10 +5,20 @@ namespace GigsterTP1.Modeles
 {
     public class Utilisateur : IdentityUser
     {
-        [Required(ErrorMessage = "Veuillez saisir un nom")]
+        [Required (ErrorMessage = "Veuillez saisir votre nom")]
         public string Nom { get; set; }
-
-        [Required(ErrorMessage = "Veuillez saisir un prénom")]
+        [Required(ErrorMessage = "Veuillez saisir votre prenom")]
         public string Prenom { get; set; }
+        [Required(ErrorMessage = "Veuillez saisir votre email")]
+        public string Adresse { get; set; }
+        [Required(ErrorMessage = "Veuillez saisir votre code postal")]
+        public string CodePostal { get; set; }
+        [Required]
+        public string Description { get; set; }
+        [Required]
+        public string? Avatar { get; set; }
+        // Est-ce que il offre un service ou non
+        [Required]
+        public bool OffreService { get; set; } = false;
     }
 }

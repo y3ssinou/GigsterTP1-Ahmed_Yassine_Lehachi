@@ -11,8 +11,6 @@ namespace GigsterTP1.Pages
         private readonly RoleManager<IdentityRole> _roleManager;
         public string Message { get; set; }
 
-        public DateTime Date { get; set; }
-
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger, RoleManager<IdentityRole> roleManager)

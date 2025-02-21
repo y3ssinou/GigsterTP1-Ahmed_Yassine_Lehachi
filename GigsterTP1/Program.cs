@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("La BD est non fonctionnel");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -19,6 +18,20 @@ builder.Services.AddIdentity<Utilisateur, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole("Administrateur")); // Seuls les utilisateurs avec le rôle "Administrateur" peuvent accéder
+});
+
+// Add services to the container.
+builder.Services.AddRazorPages(options =>
+{
+    //options.Conventions.AuthorizeFolder("/Articles"); // Protège toutes les pages dans /Pages/Articles
+    options.Conventions.AuthorizeAreaFolder("Admin", "/", "AdminOnly"); //Protège toutes les pages de /Areas/Admin
+});
+
+
 builder.Services.AddHttpClient();
 
 builder.Services.AddRazorPages();
@@ -26,7 +39,8 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 
-app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseRouting();
 
