@@ -1,4 +1,4 @@
-﻿namespace GigsterTP1.Enums
+﻿namespace GigsterTP1.Pages.Categories.Enums
 {
     public enum Etat
     {

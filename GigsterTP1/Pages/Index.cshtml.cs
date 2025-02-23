@@ -24,16 +24,6 @@ namespace GigsterTP1.Pages
         {
 
             Message = "Votre talent, votre liberté, vos opportunités.";
-
-
-            if (!await _roleManager.Roles.AnyAsync())
-            {
-                await _roleManager.CreateAsync(new IdentityRole("Administrateur"));
-
-                await _roleManager.CreateAsync(new IdentityRole("Professionel"));
-
-                await _roleManager.CreateAsync(new IdentityRole("Utilisateur"));
-            }
                 
         }
     }

@@ -67,9 +67,6 @@ namespace GigsterTP1.Pages.Account
             [Required(ErrorMessage = "L'avatar est obligatoire.")]
             [Display(Name = "Avatar")]
             public IFormFile Avatar { get; set; }
-            [Required(ErrorMessage = "Faite un choix pour les services offert ou non !")]
-            [Display(Name = "Offrir des services ?")]
-            public bool OffreService { get; set; }
         }
 
         public void OnGet() 
@@ -124,8 +121,7 @@ namespace GigsterTP1.Pages.Account
                 Adresse = Input.Adresse,
                 CodePostal = Input.CodePostal,
                 Description = Input.Description,
-                Avatar = avatarPath,
-                OffreService = Input.OffreService
+                Avatar = avatarPath
             };
 
             // Création de l'utilisateur avec Identity

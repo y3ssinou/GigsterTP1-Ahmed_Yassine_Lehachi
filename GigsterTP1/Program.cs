@@ -38,8 +38,22 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+//Création des seeds au démarrage de l'application 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
 
-    app.UseHttpsRedirection();
+    //On obtient les services nécessaires  
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    var userManager = services.GetRequiredService<UserManager<Utilisateur>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    await DBInitializer.Initialize(context, userManager, roleManager);
+
+}
+
+
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

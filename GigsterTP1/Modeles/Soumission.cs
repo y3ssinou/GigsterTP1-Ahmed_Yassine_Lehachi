@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using GigsterTP1.Enums;
+using GigsterTP1.Pages.Categories.Enums;
 
 namespace GigsterTP1.Modeles
 {
