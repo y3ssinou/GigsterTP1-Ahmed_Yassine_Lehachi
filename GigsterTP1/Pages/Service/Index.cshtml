@@ -1,4 +1,34 @@
 ﻿@page
 @model GigsterTP1.Pages.Service.IndexModel
 @{
+    ViewData["Title"] = "Liste des services";
 }
+
+<h1 class ="mb-3">Liste des services</h1>
+
+<a asp-page="Create" class="btn btn-primary mb-3">Créer un nouveau service</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Catégorie</th>
+            <th>Tarif</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var service in Model.Services)
+        {
+            <tr>
+                <td>@service.Nom</td>
+                <td>@service.Categorie.Nom</td>
+                <td>@service.Tarif</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@service.Id" class="btn btn-sm btn-warning">Modifier</a>
+                    <a asp-page="Delete" asp-route-id="@service.Id" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

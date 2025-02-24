@@ -54,7 +54,7 @@ namespace GigsterTP1.Pages.Account
             }
             else
             {
-                ModelState.AddModelError("","Courriel ou mot de passe incorrect.");
+                ModelState.AddModelError("","Nom d'utilisateur ou mot de passe incorrect.");
             }
 
             return Page();

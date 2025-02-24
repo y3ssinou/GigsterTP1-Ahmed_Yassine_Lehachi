@@ -4,33 +4,33 @@
     ViewData["Title"] = Model.Categorie.Nom;
 }
 
-<h1 class="text-center my-4">Détails de l'article : @Model.Categorie.Nom</h1>
+<h1 class="text-center mb-5 mt-2">Détails de l'article : @Model.Categorie.Nom</h1>
 
 <div class="row">
     @foreach (var service in Model.Categorie.LesServices)
     {
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@service.Nom</h5>
-                    <p class="card-text">@service.Description</p>
-                    <p class="card-text">
-                        <strong>Professionnel :</strong> @service.Utilisateur.UserName
-                        <img src="/uploads/avatar/@service.Utilisateur.Avatar" alt="Avatar de @service.Utilisateur.UserName" class="avatar-img" 
-                        style="width: 100px; height: 100px; border-radius: 50%;">
-                        @* voulais pas prendre le style dans le css donc je le fais dans le html *@
-                    </p>
-                    <p class="card-text">
-                        <strong>Note moyenne :</strong> @service.NoteMoyenne / 5
-                    </p>
-                    <p class="card-text">
-                        <strong>Nombre de votes :</strong> @service.NbrVotes
-                    </p>
-                    <p class="card-text">
-                        <strong>Tarif :</strong> @service.Tarif.ToString("C")
-                    </p>
-                    <a asp-page="/Soumissions/Create" asp-route-serviceId="@service.Id" class="btn btn-primary">Créer une soumission</a>
+            <div class="card p-3 bg-light rounded-3">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="/uploads/avatars/@service.Utilisateur.Avatar"
+                         alt="Avatar de @service.Utilisateur.UserName" class="avatar rounded-circle">
+                    <div>
+                        <p class="ps-2 text-dark">@service.Utilisateur.UserName</p>
+                    </div>
                 </div>
+
+                <p class="card-text text-dark mb-3">@service.Description</p>
+
+                <div class="d-flex align-items-center mb-3">
+                    <span class="text-muted ms-2">Nombre de votes : @service.NbrVotes</span>
+                </div>
+
+                <p class="card-text mb-3">
+                    <strong>À partir de @service.Tarif $</strong>
+                </p>
+
+                <a asp-page="/Soumissions/Create" asp-route-serviceId="@service.Id" 
+                class="btn btn-primary text-center ps-4 pe-4">Voir</a>
             </div>
         </div>
     }

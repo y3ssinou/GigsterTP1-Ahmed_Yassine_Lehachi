@@ -1,4 +1,36 @@
-﻿@page
+﻿@page "{id}"
 @model GigsterTP1.Pages.Service.DeleteModel
 @{
+    ViewData["Title"] = "Supprimer un service";
 }
+
+<h1 class="mb-3">Supprimer un service</h1>
+
+<h2 class="mb-3">Vous êtes sûr de vouloir supprimer ce service ?</h2>
+
+<div>
+    <table class="table table-borderless">
+        <tr>
+            <th>Nom</th>
+            <td>@Model.Service.Nom</td>
+        </tr>
+        <tr>
+            <th>Catégorie</th>
+            <td>@Model.Service.Categorie.Nom</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>@Model.Service.Description</td>
+        </tr>
+        <tr>
+            <th>Tarif</th>
+            <td>@Model.Service.Tarif</td>
+        </tr>
+    </table>
+
+    <form method="post">
+        <input type="hidden" asp-for="Service.Id" />
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <a asp-page="Index" class="btn btn-secondary">Retour à la liste des services</a>
+    </form>
+</div>

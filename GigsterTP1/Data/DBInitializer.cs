@@ -6,7 +6,7 @@ using NuGet.LibraryModel;
 using SQLitePCL;
 using System.Data;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using GigsterTP1.Pages.Categories.Enums;
+using GigsterTP1.Pages.Enums;
 
 namespace GigsterTP1.Data
 {

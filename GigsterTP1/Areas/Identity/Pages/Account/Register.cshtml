@@ -66,7 +66,7 @@
                 <textarea asp-for="Input.Description" class="form-control"></textarea>
                 <span asp-validation-for="Input.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Input.Avatar"></label>
                 <input type="file" asp-for="Input.Avatar" class="form-control" />
                 <span asp-validation-for="Input.Avatar" class="text-danger"></span>
@@ -74,8 +74,9 @@
 
             <button type="submit" class="btn btn-primary w-100">Créer mon compte</button>
 
-            <a class="text-center mt-3">
-                Déjà un compte ? <a asp-page="/Account/Login">Se connecter</a>
+            <a class="text-decoration-none text-primary fw-bold text-center mt-3 mb-2">
+                Déjà un compte ? 
+                <a class="text-decoration-none text-primary fw-bold text-center" asp-page="/Account/Login">Se connecter</a>
             </a>
         </form>
     </div>

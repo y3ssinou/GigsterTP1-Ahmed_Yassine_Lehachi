@@ -1,4 +1,50 @@
-﻿@page
+﻿@page "{id}"
 @model GigsterTP1.Pages.Soumissions.EditModel
 @{
+    ViewData["Title"] = "Modifier la soumission";
 }
+
+<h1 class="mb-3">Modifier la soumission</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.Soumission.Service.Nom</h5>
+                        <p class="card-text">@Model.Soumission.Service.Description</p>
+                        @if (Model.Soumission.Service.Utilisateur != null)
+                        {
+                            <p class="card-text"><strong>Professionnel :</strong> @Model.Soumission.Service.Utilisateur.UserName</p>
+                        }
+                        <p class="card-text"><strong>Tarif :</strong> @Model.Soumission.Service.Tarif $</p>
+                    </div>
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label asp-for="Soumission.Etat" class="control-label">État</label>
+                    <select asp-for="Soumission.Etat" class="form-control" asp-items="Html.GetEnumSelectList<Enums.Etat>()"></select>
+                    <span asp-validation-for="Soumission.Etat" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.DatePlanification" class="control-label"></label>
+                    <input asp-for="Input.DatePlanification" class="form-control" />
+                    <span asp-validation-for="Input.DatePlanification" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Input.Description" class="control-label"></label>
+                    <textarea asp-for="Input.Description" class="form-control"></textarea>
+                    <span asp-validation-for="Input.Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a asp-page="/Soumissions/Index" class="btn btn-secondary">Retour à la liste des soumissions</a>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -1,4 +1,107 @@
 ﻿@page
 @model GigsterTP1.Pages.Soumissions.IndexModel
 @{
+    ViewData["Title"] = "Mes soumissions";
+}
+
+<h1 class="mb-4">Mes soumissions</h1>
+
+
+<h2>Demandes reçues</h2>
+@if (Model.SoumissionsRecues != null && Model.SoumissionsRecues.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Expéditeur</th>
+                <th>Service</th>
+                <th>Date création</th>
+                <th>État</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var soumission in Model.SoumissionsRecues)
+            {
+                <tr>
+                    <td>@soumission.Utilisateur.UserName</td>
+                    <td>@soumission.Service.Nom</td>
+                    @* ToShortDateString() pour enlever l'heures *@
+                    <td>@soumission.DateCreation.ToShortDateString()</td>
+                    @if (soumission.Etat == Enums.Etat.Acceptee)
+                    {
+                        <td><button class="btn btn-success">@soumission.Etat</button></td>
+                    }
+                    else if (soumission.Etat == Enums.Etat.EnAttente)
+                    {
+                        <td><button class="btn btn-warning">@soumission.Etat</button></td>
+                    }
+                    else if (soumission.Etat == Enums.Etat.Terminee)
+                    {
+                        <td><button class="btn btn-primary">@soumission.Etat</button></td>
+                    }
+                    else
+                    {
+                        <td><button class="btn btn-danger">@soumission.Etat</button></td>
+                    }
+                    <td>
+                        <a asp-page="/Soumissions/Edit" asp-route-id="@soumission.Id" class="text-decoration-none text-primary fw-bold">Voir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucune demande</p>
+}
+
+<h2>Demandes envoyées</h2>
+@if (Model.SoumissionsEnvoyees != null && Model.SoumissionsEnvoyees.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Destinataire</th>
+                <th>Service</th>
+                <th>Date création</th>
+                <th>État</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var soumission in Model.SoumissionsEnvoyees)
+            {
+                <tr>
+                    <td>@soumission.Service.Utilisateur.UserName</td>
+                    <td>@soumission.Service.Nom</td>
+                    <td>@soumission.DateCreation.ToShortDateString()</td>
+                    @if (soumission.Etat == Enums.Etat.Acceptee)
+                    {
+                        <td><button class="btn btn-success">@soumission.Etat</button></td>
+                    }
+                    else if (soumission.Etat == Enums.Etat.EnAttente)
+                    {
+                        <td><button class="btn btn-warning">@soumission.Etat</button></td>
+                    }
+                    else if (soumission.Etat == Enums.Etat.Terminee)
+                    {
+                        <td><button class="btn btn-primary">@soumission.Etat</button></td>
+                    }
+                    else
+                    {
+                        <td><button class="btn btn-danger">@soumission.Etat</button></td>
+                    }
+                    <td>
+                        <a asp-page="/Soumissions/Edit" asp-route-id="@soumission.Id" class="text-decoration-none text-primary fw-bold">Voir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucune demande</p>
 }
