@@ -17,6 +17,5 @@ namespace GigsterTP1.Modeles
         public string Description { get; set; }
         [Required]
         public string? Avatar { get; set; }
-        // Est-ce que il offre un service ou non
     }
 }

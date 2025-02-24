@@ -33,7 +33,7 @@
                         }
                         // Demander prof si modification du profil est obligatoire
                         <li class="nav-item">
-                            <a class="nav-link" @* asp-area="Identity" asp-page="/Account/Manage/Index" *@>Bienvenue, @User.Identity.Name</a>
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">Bienvenue, @User.Identity.Name</a>
                         </li>
                         <li class="nav-item">
                             <form method="post" asp-area="Identity" asp-page="/Account/Logout">

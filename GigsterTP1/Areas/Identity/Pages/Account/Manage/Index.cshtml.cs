@@ -4,9 +4,11 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
+using System.IO;
 using System.Threading.Tasks;
 using GigsterTP1.Modeles;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,60 +19,79 @@ namespace GigsterTP1.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<Utilisateur> _userManager;
         private readonly SignInManager<Utilisateur> _signInManager;
+        private readonly IWebHostEnvironment _environment;
 
         public IndexModel(
             UserManager<Utilisateur> userManager,
-            SignInManager<Utilisateur> signInManager)
+            SignInManager<Utilisateur> signInManager,
+            IWebHostEnvironment environment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _environment = environment;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string Username { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            [Display(Name = "Nom d'utilisateur")]
+            public string Username { get; set; }
+
+            [Required(ErrorMessage = "Le nom est nécessaire")]
+            [Display(Name = "Nom")]
+            public string Nom { get; set; }
+
+            [Required(ErrorMessage = "Le prénom est nécessaire")]
+            [Display(Name = "Prénom")]
+            public string Prenom { get; set; }
+
+            [EmailAddress]
+            [Display(Name = "Courriel")]
+            public string Email { get; set; }
+
+            [Required(ErrorMessage = "L'email est nécessaire")]
+            [Display(Name = "Adresse")]
+            public string Adresse { get; set; }
+
+            [Required(ErrorMessage = "Le code postal est nécessaire")]
+            [Display(Name = "Code postal")]
+            public string CodePostal { get; set; }
+
+            [Display(Name = "Description")]
+            public string Description { get; set; }
+
+            [Display(Name = "Avatar")]
+            public IFormFile Avatar { get; set; }
+
+            [Display(Name = "Offrir des services ?")]
+            public bool OffrirService { get; set; }
         }
 
         private async Task LoadAsync(Utilisateur user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var email = await _userManager.GetEmailAsync(user);
+            var unprofessionnel = await _userManager.IsInRoleAsync(user, "Professionnel");
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                Username = userName,
+                Nom = user.Nom,
+                Prenom = user.Prenom,
+                Email = email,
+                Adresse = user.Adresse,
+                CodePostal = user.CodePostal,
+                Description = user.Description,
+                OffrirService = unprofessionnel
             };
         }
 
@@ -79,7 +100,7 @@ namespace GigsterTP1.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Pas capable de Charger :'{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -91,7 +112,7 @@ namespace GigsterTP1.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Pas capable de Charger : '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -100,19 +121,74 @@ namespace GigsterTP1.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            // Mise à jour des champs de l'utilisateur
+            if (Input.Nom != user.Nom)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                user.Nom = Input.Nom;
+            }
+
+            if (Input.Prenom != user.Prenom)
+            {
+                user.Prenom = Input.Prenom;
+            }
+
+            if (Input.Adresse != user.Adresse)
+            {
+                user.Adresse = Input.Adresse;
+            }
+
+            if (Input.CodePostal != user.CodePostal)
+            {
+                user.CodePostal = Input.CodePostal;
+            }
+
+            if (Input.Description != user.Description)
+            {
+                user.Description = Input.Description;
+            }
+
+            // pris de inscription
+            if (Input.Avatar is not null)
+            {
+                var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "avatars");
+                if (!Directory.Exists(uploadsFolder))
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
+                    Directory.CreateDirectory(uploadsFolder);
                 }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Input.Avatar.FileName;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Input.Avatar.CopyToAsync(fileStream);
+                }
+
+                user.Avatar = uniqueFileName;
+            }
+
+            var estProf = await _userManager.IsInRoleAsync(user, "Professionnel");
+
+            if (Input.OffrirService && !estProf)
+            {
+                await _userManager.AddToRoleAsync(user, "Professionnel");
+            }
+            else if (!Input.OffrirService && estProf)
+            {
+                await _userManager.RemoveFromRoleAsync(user, "Professionnel");
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                StatusMessage = "Erreur pour la modification";
+                return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+
+            StatusMessage = "Votre profil a été mis à jour avec succès !";
             return RedirectToPage();
         }
     }
