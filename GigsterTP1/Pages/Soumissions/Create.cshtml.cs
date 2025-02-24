@@ -27,6 +27,9 @@ namespace GigsterTP1.Pages.Soumissions
         [BindProperty]
         public InputModel Input { get; set; }
 
+        [BindProperty]
+        public Soumission Soumission { get; set; }
+
         public class InputModel
         {
             [Required(ErrorMessage = "La date de planification est nécessaire")]
