@@ -31,12 +31,27 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizeAreaFolder("Admin", "/", "AdminOnly"); //Protège toutes les pages de /Areas/Admin
 });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login"; // Redirige vers /Utilisateur/Connexion au lieu de /Account/Login
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Page d'erreur si accès refusé
+});
+
 
 builder.Services.AddHttpClient();
 
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseStatusCodePagesWithReExecute("/Error/{0}");
+}
+
+app.UseExceptionHandler("/Error");
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 //Création des seeds au démarrage de l'application 
 using (var scope = app.Services.CreateScope())

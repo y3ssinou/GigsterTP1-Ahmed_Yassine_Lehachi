@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using GigsterTP1.Data;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GigsterTP1.Pages.Soumissions
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;

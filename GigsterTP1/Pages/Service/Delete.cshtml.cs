@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using GigsterTP1.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GigsterTP1.Pages.Service
 {
+    [Authorize(Roles = "Professionnel")]
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;

@@ -7,10 +7,10 @@
 <h1 class="mb-4">Mes soumissions</h1>
 
 
-<h2>Demandes reçues</h2>
+<h2 class="pb-3">Demandes reçues</h2>
 @if (Model.SoumissionsRecues != null && Model.SoumissionsRecues.Any())
 {
-    <table class="table">
+    <table class="table m-2 rounded shadow bg-body">
         <thead>
             <tr>
                 <th>Expéditeur</th>
@@ -57,10 +57,10 @@ else
     <p>Aucune demande</p>
 }
 
-<h2>Demandes envoyées</h2>
+<h2 class="pb-3">Demandes envoyées</h2>
 @if (Model.SoumissionsEnvoyees != null && Model.SoumissionsEnvoyees.Any())
 {
-    <table class="table">
+    <table class="table table-striped table-hover rounded-3 shadow-lg bg-white table-lg">
         <thead>
             <tr>
                 <th>Destinataire</th>

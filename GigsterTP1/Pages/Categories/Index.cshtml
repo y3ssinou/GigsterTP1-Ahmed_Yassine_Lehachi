@@ -4,16 +4,16 @@
     ViewData["Title"] = "Catégories";
 }
 
-<h1 class="mb-3">Catégories</h1>
+<h1 class="mb-4">Catégories</h1>
 
 <div class="row">
     @foreach (var categorie in Model.Categories)
     {
         <div class="col-md-4 mb-4">
-            <div class="card">
+            <div class="card shadow bg-body rounded">
                 <div class="card-body">
                     <h5 class="card-title">@categorie.Nom</h5>
-                    <a asp-page="/Categories/Details" asp-route-id="@categorie.Id" class="btn btn-success">Voir les services</a>
+                    <a asp-page="/Categories/Details" asp-route-id="@categorie.Id" class="btn btn-primary">Voir les services</a>
                 </div>
             </div>
         </div>

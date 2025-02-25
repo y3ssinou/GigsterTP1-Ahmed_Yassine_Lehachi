@@ -20,6 +20,7 @@ html {
 
 body {
     margin-bottom: 60px;
+    background-color: #f0f1f3;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -31,10 +32,15 @@ body {
   text-align: start;
 }
 
-.avatar {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+.btn-primary {
+    background-color: #4B9CE9;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 32px;
+}
+
+.couleurtexteaccueil {
+    color: #120FDC;
 }
 
 .text-purple {
@@ -51,9 +57,20 @@ body {
     gap: 2px;
 }
 
-.btn-primary {
-    background-color: #4B9CE9;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 32px;
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+    .card:hover {
+        transform: translateY(5px);
+        box-shadow: 10px 8px 20px;
+    }
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }

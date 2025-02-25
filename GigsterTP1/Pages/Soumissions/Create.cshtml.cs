@@ -7,9 +7,11 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using GigsterTP1.Enums;
 using GigsterTP1.Pages.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GigsterTP1.Pages.Soumissions
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;

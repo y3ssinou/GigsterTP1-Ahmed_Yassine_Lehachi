@@ -6,9 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using GigsterTP1.Modeles;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GigsterTP1.Pages.Service
 {
+    [Authorize(Roles = "Professionnel")]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;

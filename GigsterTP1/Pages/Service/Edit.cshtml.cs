@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using GigsterTP1.Data;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GigsterTP1.Pages.Service
 {
+    [Authorize(Roles = "Professionnel")]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;

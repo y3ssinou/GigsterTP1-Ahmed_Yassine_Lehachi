@@ -5,9 +5,11 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using GigsterTP1.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GigsterTP1.Pages.Service
 {
+    [Authorize(Roles = "Professionnel")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
