@@ -37,7 +37,7 @@ namespace GigsterTP1.Data
                     Adresse = "123 Rue Admin",
                     CodePostal = "G1W 3B1",
                     Description = "Administrateur",
-                    Avatar = "dsadsad"
+                    Avatar = "photopourseed.jpg"
                 };
 
                 await userManager.CreateAsync(compteadmin, "Password123!");
@@ -55,7 +55,7 @@ namespace GigsterTP1.Data
                     Adresse = "123 Rue utilisateur",
                     CodePostal = "G1A 0A2",
                     Description = "L'utilisateur num 1",
-                    Avatar = "dsadsad"
+                    Avatar = "photopourseed.jpg"
                 };
 
                 await userManager.CreateAsync(user1, "Password123!");
@@ -70,7 +70,7 @@ namespace GigsterTP1.Data
                     Adresse = "123 Rue utilisateur",
                     CodePostal = "G1C 3K5",
                     Description = "L'utilisateur num 2",
-                    Avatar = "dsadsad"
+                    Avatar = "photopourseed.jpg"
                 };
 
                 await userManager.CreateAsync(user2, "Password123!");
@@ -85,7 +85,7 @@ namespace GigsterTP1.Data
                     Adresse = "123 Rue utilisateur",
                     CodePostal = "G1W 3B1",
                     Description = "L'utilisateur num 3",
-                    Avatar = "dsadsad"
+                    Avatar = "photopourseed.jpg"
                 };
 
                 await userManager.CreateAsync(user3, "Password123!");
@@ -103,7 +103,7 @@ namespace GigsterTP1.Data
                     Adresse = "123 Rue utilisateur",
                     CodePostal = "G1G 4Y5",
                     Description = "Le professionel num 1",
-                    Avatar = "dsadsad"
+                    Avatar = "photopourseed.jpg"
                 };
 
                 await userManager.CreateAsync(prof1, "Password123!");
@@ -118,7 +118,7 @@ namespace GigsterTP1.Data
                     Adresse = "123 Rue professionel",
                     CodePostal = "G1H 2R3",
                     Description = "Le professionel num 2",
-                    Avatar = "dsadsad"
+                    Avatar = "photopourseed.jpg"
                 };
 
                 await userManager.CreateAsync(prof2, "Password123!");
@@ -133,7 +133,7 @@ namespace GigsterTP1.Data
                     Adresse = "123 Rue professionel",
                     CodePostal = "G1J 3S8",
                     Description = "Le professionel num 3",
-                    Avatar = "dsadsad"
+                    Avatar = "photopourseed.jpg"
                 };
 
                 await userManager.CreateAsync(prof3, "Password123!");
