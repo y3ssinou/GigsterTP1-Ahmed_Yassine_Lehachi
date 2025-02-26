@@ -23,12 +23,6 @@
                     </div>
                 </div>
 
-                <div class="mb-3 form-group">
-                    <label asp-for="Soumission.Etat" class="control-label">État</label>
-                    <select asp-for="Soumission.Etat" class="form-control" asp-items="Html.GetEnumSelectList<Enums.Etat>()"></select>
-                    <span asp-validation-for="Soumission.Etat" class="text-danger"></span>
-                </div>
-
                 <div class="form-group">
                     <label asp-for="Input.DatePlanification" class="control-label"></label>
                     <input asp-for="Input.DatePlanification" class="form-control" />

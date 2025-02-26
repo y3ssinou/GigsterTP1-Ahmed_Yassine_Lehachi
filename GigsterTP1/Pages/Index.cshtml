@@ -17,16 +17,15 @@
             <div class="card shadow-lg border-0 rounded-3">
                 <div class="card-body">
                     <h3 class="card-title fw-bold fs-2 couleurtexteaccueil">Trouver un service</h3>
-                    <form>
+                    <form method="post">
                         <div class="mb-3">
-                            <label for="categorie" class="form-label">Catégorie</label>
-                            <select asp-for="Categoriee" asp-items="Model.Categorie" class="form-control" id="categorie">
-                                <option>Sélectionner une catégorie</option>
+                            <label for="categorie" class="form-label">Sélectionner une catégorie</label>
+                            <select asp-for="lescategories" asp-items="Model.Categories" class="form-select" id="categorie">
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="codePostal" class="form-label">Code postal</label>
-                            <input type="text" class="form-control" id="codePostal" placeholder="Entrez votre code postal">
+                            <label asp-for="codezip" class="form-label">Code postal</label>
+                            <input asp-for="codezip" type="text" class="form-control" placeholder="Entrez votre code postal">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Rechercher</button>
                     </form>
@@ -35,3 +34,33 @@
         </div>
     </div>
 </div>
+
+@if (Model.MessageAPI != null)
+{
+    <div>
+        <p class="text-primary fw-bold">@Model.MessageAPI</p>
+
+        @if (Model.apiDonnees != null)
+        {
+            <div class="row g-2">
+                @foreach (var (distance, service) in Model.apiDonnees)
+                {
+                    <div class="col-md-4">
+                        <div class="card card_bg p-3">
+
+                            <div>
+                                <p>@service.Nom</p>
+                                <p>@service.Tarif $</p>
+                                <p>@distance Km</p>
+                                <a asp-page="/Soumissions/Create" asp-route-serviceId="@service.Id" class="btn btn-primary text-center ps-4 pe-4">Voir</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>  
+        }
+        
+
+    </div>
+
+}

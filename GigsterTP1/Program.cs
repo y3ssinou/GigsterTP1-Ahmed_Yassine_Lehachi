@@ -21,20 +21,19 @@ builder.Services.AddIdentity<Utilisateur, IdentityRole>(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy =>
-        policy.RequireRole("Administrateur")); // Seuls les utilisateurs avec le rôle "Administrateur" peuvent accéder
+        policy.RequireRole("Administrateur"));
 });
 
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
-    //options.Conventions.AuthorizeFolder("/Articles"); // Protège toutes les pages dans /Pages/Articles
-    options.Conventions.AuthorizeAreaFolder("Admin", "/", "AdminOnly"); //Protège toutes les pages de /Areas/Admin
+    options.Conventions.AuthorizeAreaFolder("Admin", "/", "AdminOnly"); 
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Identity/Account/Login"; // Redirige vers /Utilisateur/Connexion au lieu de /Account/Login
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // Page d'erreur si accès refusé
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied"; 
 });
 
 
@@ -53,12 +52,10 @@ if (!app.Environment.IsDevelopment())
 app.UseExceptionHandler("/Error");
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
-//Création des seeds au démarrage de l'application 
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    //On obtient les services nécessaires  
     var context = services.GetRequiredService<ApplicationDbContext>();
     var userManager = services.GetRequiredService<UserManager<Utilisateur>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();

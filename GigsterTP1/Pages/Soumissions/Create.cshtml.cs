@@ -59,6 +59,8 @@ namespace GigsterTP1.Pages.Soumissions
 
         public async Task<IActionResult> OnPostAsync(int serviceId)
         {
+            return RedirectToPage("/Soumissions/Index");
+
             if (!ModelState.IsValid)
             {
                 Service = await _context.Services
@@ -73,7 +75,6 @@ namespace GigsterTP1.Pages.Soumissions
                 return Page();
             }
 
-            // Récupérez l'utilisateur connecté
             var utilisateurConnecte = await _userManager.GetUserAsync(User);
 
             if (utilisateurConnecte is null)
@@ -94,7 +95,6 @@ namespace GigsterTP1.Pages.Soumissions
             _context.Soumissions.Add(soumission);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Soumissions/Index");
         }
     }
 }

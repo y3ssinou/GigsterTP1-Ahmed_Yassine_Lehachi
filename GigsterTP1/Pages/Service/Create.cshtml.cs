@@ -59,6 +59,7 @@ namespace GigsterTP1.Pages.Service
 
         public async Task<IActionResult> OnPostAsync()
         {
+
             if (!ModelState.IsValid)
             {
                 Categories = await _context.Categories

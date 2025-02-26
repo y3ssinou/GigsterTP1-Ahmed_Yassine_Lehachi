@@ -53,7 +53,7 @@ namespace GigsterTP1.Data
                     Nom = "utilisateur1",
                     Prenom = "utilisateur1",
                     Adresse = "123 Rue utilisateur",
-                    CodePostal = "G1W 3B2",
+                    CodePostal = "G1A 0A2",
                     Description = "L'utilisateur num 1",
                     Avatar = "dsadsad"
                 };
@@ -68,7 +68,7 @@ namespace GigsterTP1.Data
                     Nom = "utilisateur2",
                     Prenom = "utilisateur2",
                     Adresse = "123 Rue utilisateur",
-                    CodePostal = "G1W 3B3",
+                    CodePostal = "G1C 3K5",
                     Description = "L'utilisateur num 2",
                     Avatar = "dsadsad"
                 };
@@ -83,7 +83,7 @@ namespace GigsterTP1.Data
                     Nom = "utilisateur3",
                     Prenom = "utilisateur3",
                     Adresse = "123 Rue utilisateur",
-                    CodePostal = "G1W 3B3",
+                    CodePostal = "G1W 3B1",
                     Description = "L'utilisateur num 3",
                     Avatar = "dsadsad"
                 };
@@ -101,7 +101,7 @@ namespace GigsterTP1.Data
                     Nom = "professionel1",
                     Prenom = "professionel1",
                     Adresse = "123 Rue utilisateur",
-                    CodePostal = "G1W 3B5",
+                    CodePostal = "G1G 4Y5",
                     Description = "Le professionel num 1",
                     Avatar = "dsadsad"
                 };
@@ -116,7 +116,7 @@ namespace GigsterTP1.Data
                     Nom = "professionel2",
                     Prenom = "professionel2",
                     Adresse = "123 Rue professionel",
-                    CodePostal = "G1W 3B2",
+                    CodePostal = "G1H 2R3",
                     Description = "Le professionel num 2",
                     Avatar = "dsadsad"
                 };
@@ -131,7 +131,7 @@ namespace GigsterTP1.Data
                     Nom = "professionel3",
                     Prenom = "professionel3",
                     Adresse = "123 Rue professionel",
-                    CodePostal = "G1W 3B2",
+                    CodePostal = "G1J 3S8",
                     Description = "Le professionel num 3",
                     Avatar = "dsadsad"
                 };

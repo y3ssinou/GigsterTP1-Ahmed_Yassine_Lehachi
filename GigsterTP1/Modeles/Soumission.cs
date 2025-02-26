@@ -19,7 +19,7 @@ namespace GigsterTP1.Modeles
         [Required]
         public int ServiceId { get; set; }
         [ForeignKey("ServiceId")]
-        public Service Service { get; set; }
+        public Service? Service { get; set; }
         [Required]
         public string UtilisateurId { get; set; }
         [ForeignKey("UtilisateurId")]
